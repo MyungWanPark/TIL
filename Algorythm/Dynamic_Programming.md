@@ -10,7 +10,7 @@
     * 퀵정렬
     * 계수정렬
   * 이진탐색
-  * **Dynamic_Programming**
+  * ***Dynamic_Programming***
   * 최단거리
   * 그래프 알고리즘
    
