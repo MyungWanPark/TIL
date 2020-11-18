@@ -177,6 +177,38 @@ for i in range(1,n+1):
    
 
 ## 2 플로이드 워셜 알고리즘 O(N^3)
-<point:>
-D(ab) = min( D(ab), D(ak)+D(kb) )
-즉, 'A에서 B로 가는 최소비용'과 'A에서 K를 거쳐 B로 가는 비용'을 비교하여 더 작은 값으로 갱신
+<point:>   
+1. D(ab) = min( D(ab), D(ak)+D(kb) )   
+즉, 어떤 곳으로 가는데 곧 바로 'A에서 B로 가는 비용'과 'A에서 K를 거쳐 B로 가는 비용'을 비교하여    
+더 작은 값으로 갱신. 이때 K는 각각의 모든 노드를 말함.
+2. 거리에 대한 데이터를 2차원 배열에 저장한다.
+   
+   
+```python
+
+INF = int(1e9)
+#노드의 갯수와 간선의 갯수를 입력받는다. 
+n,m = map(int, input().split())
+
+#초기에 모든 노드끼리의 거리는 무한으로 세팅해놓는다.
+graph = [[INF]*(n+1) for _ in range(n+1)]
+
+#간선의 데이터로 초기 거리의 그래프를 만든다.
+for i in range(m):
+    a,b,c = map(int, input().split())
+    graph[a][b] = c
+
+#자기 자신으로 향하는 거리는 0으로 세팅
+for i in range(1,n+1):
+    for j in range(1,n+1):
+        if i == j:
+            graph[i][j] == 0
+
+# 플로이트 워셜 알고리즘
+for k in range(1,n+1):
+    for a in range(1,n+1):
+        for b in range(1,n+1):
+            graph[a][b] = min(graph[a][b],graph[a][k]+graph[k][b])
+
+```
+
