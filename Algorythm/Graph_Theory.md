@@ -98,7 +98,7 @@ print("부모테이블 출력")
 for i in range(1,v+1):
     print(parent[i],end= " ")
 '''
-
+# 순서를 고려한 위상정렬
 from collections import deque
 
 v,e = map(int, input().split())
