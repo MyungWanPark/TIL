@@ -58,3 +58,51 @@ for i in Unit:
     d[n] = min(d[n],d[n-i]+1)
 
 ```
+
+### 금광 problem 
+```python
+TC = int(input())
+# for 문 안에 테스트케이스를 넣었으니, 테스트 케이스마다 결과값을 프린트 한다.
+for y in range(TC):
+    n,m = map(int,input().split())
+    array = list(map(int,input().split()))
+    dp = []
+
+    index = 0
+    # 새롭게 안 지식! 한 줄로 배열이 주어질때, 마치 슬라이스를 해서 넣을 수 있는데 그 핵심은 슬라이싱 범위에 변수를 넣었기에 가능하다.
+    for j in range(n):
+        dp.append(array[index:index+m])
+        index += m
+
+    # 보통과 다르게 행령에서 열이 더 상위에 있는데, 그 이유는 하나의 열이 완성되기 위해 모든 행의 값들이 다 계산되어져야 하기 때문이다.
+    for j in range(1,m):
+        for i in range(n):
+
+            # 가장 위에 있는 행렬일 경우
+            if i == 0:
+                # 왼쪽 위의 값이 존재하지 않으므로 왼쪽 값과 동일하게 만들어 준다.
+                left_up = 0
+            else:
+                # 가장 위쪽에 있지만 않으면, 왼쪽 위의 값을 아래와 같이 표현할 수 있다.
+                left_up = i-1
+            #왼쪽 값은 언제든지 표현 할 수 있으므로 다음과 같이 표현한다.
+            left = i
+
+            # 열 안에서 맨 아래쪽에 있는 경우
+            if i == n-1:
+                # 왼쪽 아래의 값은 지정할 수 없으므로, 왼쪽 값과 동일하게 한다.
+                left_down = n-1
+            # 열 안에서 맨 아래쪽만 아니면, 왼쪽 아래의 값은 다음과 같이 지정할 수 있다.
+            else:
+                left_down = i+1
+            # 가장 중요한 점화식! 규칙을 어떻게든 찾아내었고, 그 규칙은 다음과 같다.
+            dp[i][j] = dp[i][j] + max(dp[left_up][j-1],dp[left][j-1],dp[left_down][j-1])
+
+
+    result = 0
+
+    for i in range(n):
+            result = max(result,dp[i][m-1])
+
+    print(result)
+```
