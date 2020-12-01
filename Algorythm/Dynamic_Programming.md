@@ -106,3 +106,35 @@ for y in range(TC):
 
     print(result)
 ```
+
+### 삼각형  problem 
+```python
+import copy
+
+n = int(input())
+a = []
+count = 0
+for i in range(n):
+        a.append(list(map(int,input().split())))
+
+d = copy.deepcopy(a)
+
+d[0][0] = a[0][0]
+
+for i in range(1,n):
+    for j in range(i+1):
+        if j == 0:
+            d[i][j] = d[i-1][j] + a[i][j]
+        elif i == j:
+            d[i][j] = d[i-1][j-1] + a[i][j]
+        else:
+            d[i][j] = max(d[i-1][j-1],d[i-1][j]) + a[i][j]
+        print(d[i][j], end = " ")
+    print()
+
+result = 0
+for i in range(n):
+    result = max(result, d[n-1][i])
+
+print(result)
+```
