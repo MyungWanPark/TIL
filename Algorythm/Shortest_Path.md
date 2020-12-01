@@ -250,3 +250,43 @@ for i in range(1,n+1):
             print(0, end=" ")
     print()
 ```
+
+### Problem 2
+
+```python
+INF = int(1e9)
+n,m = map(int,input().split())
+graph = [[INF] * (n+1) for i in range(n+1)]
+
+for i in range(m):
+    a,b = map(int,input().split())
+    graph[a][b] = 1
+
+for i in range(1,n+1):
+    for j in range(1,n+1):
+        if i == j :
+            graph[i][j] = 0
+
+for k in range(1,n+1):
+    for a in range(1, n + 1):
+        for b in range(1, n + 1):
+            graph[a][b] = min(graph[a][b],graph[a][k]+graph[k][b])
+
+result = 0
+# i 학생을 기준으로 설정
+for i in range(1,n+1):
+    count = 0
+    for j in range(1,n+1):
+        # i 학생 성적보다 뛰어난 학생 수
+        # 이때 min(INF,INF+INF) = INF 이므로 != INF 으로 하는게 더 깔끔할 수 있다.
+        if graph[i][j] < INF and graph[i][j] != 0:
+            count += 1
+        # i 학생 성적보다 뒤떨어진 학생 수
+        if graph[j][i] < INF and graph[j][i] != 0:
+            count += 1
+    # 자기 자신을 카운트 하지 않았으므로 n-1을 해준다.
+    if count == n-1:
+        result += 1
+
+print(result)
+```
