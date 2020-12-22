@@ -129,7 +129,7 @@ for i in range(1,n):
             d[i][j] = d[i-1][j-1] + a[i][j]
         else:
             d[i][j] = max(d[i-1][j-1],d[i-1][j]) + a[i][j]
-        print(d[i][j], end = " ")
+        print(d[i][j],end = ' ')
     print()
 
 result = 0
@@ -137,4 +137,77 @@ for i in range(n):
     result = max(result, d[n-1][i])
 
 print(result)
+```
+###  3g, 5g 의 단위가 있다. 모든 무게를 3,5g으로 표현할때 가장 작은 방법의 수는?
+   
+```python
+
+INF = int(1e9)
+d = [INF] * 5001
+
+n = int(input())
+
+d[0] = 0
+# 3g으로 먼저 쌓아 나간다.
+for i in range(3,n+1):
+    d[i] = min(d[i],d[i-3]+1)
+# 위의 dp테이블을 바탕으로 5g을 쌓아 나간다.
+for i in range(5,n+1):
+    d[i] = min(d[i],d[i-5]+1)
+
+if d[n] == INF:
+    print(-1)
+else:
+    print(d[n])
+```
+
+### 연산 사용의 최솟값은?   
+```python
+
+# X가 3으로 나누어 떨어지면, 3으로 나눈다.
+# X가 2로 나누어 떨어지면, 2로 나눈다.
+# 1을 뺀다.
+# 세 개를 적절히 사용해서 1을 만들려고 한다. 연산을 사용하는 횟수의 최솟값을 출력하시오.
+
+INF = int(1e9)
+
+d = [INF] * 1000001
+
+x = int(input())
+
+d[1] = 0
+for i in range(2,x+1):
+
+    d[i] = min(d[i],d[i-1]+1)
+
+    if i % 2 == 0:
+        d[i] = min(d[i], d[i//2]+1)
+
+    if i % 3 == 0:
+        d[i] = min(d[i], d[i//3]+1)
+
+print(d[x])
+
+```
+
+### 정수 n이 주어졌을 때, n을 1, 2, 3의 합으로 나타내는 방법의 수를 구하는 프로그램을 작성하시오.
+
+```python
+TC = int(input())
+x = []
+for i in range(TC):
+    x.append(int(input()))
+
+d = [0] * 12
+
+d[1] = 1
+d[2] = 2
+d[3] = 4
+
+for i in range(4,12):
+    d[i] = d[i-1]+d[i-2]+d[i-3]
+
+for i in range(TC):
+    print(d[x[i]])
+
 ```
